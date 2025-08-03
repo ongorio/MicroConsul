@@ -1,0 +1,22 @@
+get_clients = """
+SELECT c.CLIENTE_ID as id, c.NOMBRE as name, c.ESTATUS as status, m.NOMBRE as moneda, lc.F_ID as f_id  FROM CLIENTES c
+LEFT JOIN LIBRES_CLIENTES lc 
+ON lc.CLIENTE_ID = c.CLIENTE_ID
+JOIN MONEDAS m 
+ON m.MONEDA_ID = c.MONEDA_ID;
+"""
+
+get_client_by_id = """
+SELECT c.CLIENTE_ID as id, c.NOMBRE as name, c.ESTATUS as status, m.NOMBRE as moneda, lc.F_ID as f_id  FROM CLIENTES c
+LEFT JOIN LIBRES_CLIENTES lc 
+ON lc.CLIENTE_ID = c.CLIENTE_ID
+JOIN MONEDAS m 
+ON m.MONEDA_ID = c.MONEDA_ID
+WHERE c.CLIENTE_ID = ?;
+"""
+
+get_next_client_id = """SELECT COALESCE(MAX(CLIENTE_ID), 0) + 1 FROM CLIENTES;"""
+
+create_client = """INSERT INTO CLIENTES (
+CLIENTE_ID, NOMBRE, SUJETO_IEPS, DIFERIR_CFDI_COBROS, LIMITE_CREDITO, MONEDA_ID, COND_PAGO_ID
+) VALUES (?,?,?,?,?,?,?)"""
