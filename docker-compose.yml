@@ -1,0 +1,22 @@
+services:
+  microsip-gunicorn:
+    container_name: microsip-gunicorn
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    stop_grace_period: 3s
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    volumes:
+      - .:/app
+    networks:
+      - microsip-network
+    command: gunicorn consultante.wsgi:application --bind 0.0.0.0:8000 --workers 3
+
+networks:
+  microsip-network:

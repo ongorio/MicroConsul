@@ -1,0 +1,15 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 8000:8000
+    volumes:
+      - ./nginx/nginx.local.conf:/etc/nginx/nginx.conf
+      - ./nginx/proxy_params.conf:/etc/nginx/proxy_params
+      - ./src/static:/app/src/static
+      - ./src:/app/src
+    depends_on:
+      - microsip-gunicorn
+    networks:
+      - microsip-network
+    restart: unless-stopped

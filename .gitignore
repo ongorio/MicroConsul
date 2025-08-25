@@ -1,5 +1,5 @@
 # Your specific database
-src/db.sqlite3
+*.sqlite3
 
 # Your environment files
 .env
@@ -8,7 +8,7 @@ src/db.sqlite3
 __pycache__/
 *.pyc
 
-
+static/
 
 # IDE files
 .vscode/

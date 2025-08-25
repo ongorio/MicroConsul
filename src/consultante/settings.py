@@ -32,6 +32,7 @@ env = environ.Env(
     POSTGRES_HOST=str,
     POSTGRES_PORT=int,
     ALLOWED_HOSTS=str,
+    CSRF_TRUSTED_ORIGINS=str,
 )
 environ.Env.read_env(PATH_ENV)
 
@@ -46,6 +47,7 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 
+CSRF_TRUSTED_ORIGINS = env('CSRF_TRUSTED_ORIGINS').split(',')
 
 # Application definition
 
@@ -59,6 +61,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'clients',
+    'products',
+    'dawn',
 ]
 
 MIDDLEWARE = [
@@ -171,3 +175,19 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_CF_VISITOR', 'https')
+    USE_X_FORWARDED_HOST = True
+    USE_X_FORWARDED_PORT = True
+
+    # Cookie Security
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_SAMESITE = 'Lax'
+    SESSION_COOKIE_SAMESITE = 'Lax'

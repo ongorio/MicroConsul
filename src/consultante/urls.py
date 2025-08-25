@@ -17,9 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from consultante.views import IndexApi
+
 urlpatterns = [
+    path('', IndexApi.as_view(), name='index'),
     path('admin/', admin.site.urls),
-    path('clients/', include('clients.urls')),
-    path('products/', include('products.urls')),
-    path('auth/', include('auth.urls')),
+    path('api/1.0/', include('dawn.urls')),
 ]
